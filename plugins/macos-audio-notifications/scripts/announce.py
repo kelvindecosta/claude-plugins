@@ -104,6 +104,15 @@ def main() -> int:
         play_sound()
         return 0
 
+    # Deduplicate overlapping events so each logical action announces once.
+    # An AskUserQuestion fires PreToolUse (-> "question"), a PermissionRequest,
+    # AND a "permission_prompt" Notification. Ordinary approvals likewise fire
+    # both a PermissionRequest and a "permission_prompt" Notification.
+    if event == "approval" and payload.get("tool_name") == "AskUserQuestion":
+        return 0  # already covered by the "question" PreToolUse announcement
+    if event == "asking" and payload.get("notification_type") == "permission_prompt":
+        return 0  # already covered by the "approval" PermissionRequest announcement
+
     title = resolve_title(payload)
     phrase = PHRASES.get(event, PHRASES["done"]).format(title=title)
     speak(phrase)
