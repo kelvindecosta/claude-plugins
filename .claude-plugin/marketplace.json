@@ -6,13 +6,12 @@
   },
   "metadata": {
     "description": "Kelvin's personal Claude Code plugins",
-    "version": "1.0.0",
-    "pluginRoot": "./plugins"
+    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "macos-audio-notifications",
-      "source": "macos-audio-notifications",
+      "source": "./plugins/macos-audio-notifications",
       "description": "macOS-only: spoken notifications for Claude Code lifecycle events via the `say` command."
     }
   ]
