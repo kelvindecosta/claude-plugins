@@ -1,0 +1,12 @@
+{
+  "name": "macos-audio-notifications",
+  "displayName": "macOS Audio Notifications",
+  "description": "macOS-only: spoken notifications for Claude Code lifecycle events (reply, approval, question, error) via the `say` command.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Kelvin DeCosta"
+  },
+  "homepage": "https://github.com/kelvindecosta/claude-plugins/tree/main/plugins/macos-audio-notifications",
+  "license": "MIT",
+  "hooks": "./hooks/hooks.json"
+}
