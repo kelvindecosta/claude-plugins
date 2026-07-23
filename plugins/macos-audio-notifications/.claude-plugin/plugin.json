@@ -7,6 +7,5 @@
     "name": "Kelvin DeCosta"
   },
   "homepage": "https://github.com/kelvindecosta/claude-plugins/tree/main/plugins/macos-audio-notifications",
-  "license": "MIT",
-  "hooks": "./hooks/hooks.json"
+  "license": "MIT"
 }
