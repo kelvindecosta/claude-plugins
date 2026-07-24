@@ -34,6 +34,7 @@ Both are optional environment variables, read at hook time:
 | --- | --- | --- |
 | `CLAUDE_ANNOUNCE_VOICE` | `say` voice name, e.g. `Samantha` | system default voice |
 | `CLAUDE_ANNOUNCE_SOUND` | sound file for the error beep | `/System/Library/Sounds/Ping.aiff` |
+| `CLAUDE_ANNOUNCE_VOLUME` | loudness from `0.0` to `1.0`, relative to system volume | `0.25` |
 
 To browse voices and pick one, run the bundled demo (it speaks each installed English
 voice saying its own name):

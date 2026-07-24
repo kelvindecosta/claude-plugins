@@ -11,6 +11,7 @@ transcript's custom title, then its generated summary, then the project folder.
 Configuration (environment variables, all optional):
   CLAUDE_ANNOUNCE_VOICE   `say` voice name (e.g. "Samantha"). Unset -> system default.
   CLAUDE_ANNOUNCE_SOUND   Path to the sound played for the `issue` event.
+  CLAUDE_ANNOUNCE_VOLUME  Loudness from 0.0 to 1.0 (relative to system volume).
 
 Non-macOS platforms (or a missing `say`/`afplay`) are a no-op, so this is safe
 to install anywhere.
@@ -31,9 +32,21 @@ PHRASES = {
 # Sound played for the `issue` event; override with CLAUDE_ANNOUNCE_SOUND.
 DEFAULT_SOUND = "/System/Library/Sounds/Ping.aiff"
 
+# Loudness (0.0-1.0, relative to system volume); override with CLAUDE_ANNOUNCE_VOLUME.
+DEFAULT_VOLUME = 0.25
+
 
 def humanize(name: str) -> str:
     return name.replace("-", " ").replace("_", " ").strip() or "Claude"
+
+
+def resolve_volume() -> float:
+    raw = os.environ.get("CLAUDE_ANNOUNCE_VOLUME")
+    try:
+        volume = float(raw) if raw is not None else DEFAULT_VOLUME
+    except ValueError:
+        volume = DEFAULT_VOLUME
+    return max(0.0, min(1.0, volume))
 
 
 def title_from_transcript(path: str) -> str | None:
@@ -81,13 +94,15 @@ def play_sound() -> None:
         return
     sound = os.environ.get("CLAUDE_ANNOUNCE_SOUND") or DEFAULT_SOUND
     if os.path.isfile(sound):
-        subprocess.run(["afplay", sound], check=False)
+        subprocess.run(["afplay", "-v", str(resolve_volume()), sound], check=False)
 
 
 def speak(phrase: str) -> None:
     if not shutil.which("say"):
         return
     voice = os.environ.get("CLAUDE_ANNOUNCE_VOICE")
+    # `say` reads loudness from an inline [[volm N]] command prefixed to the text.
+    phrase = f"[[volm {resolve_volume()}]] {phrase}"
     cmd = ["say"] + (["-v", voice] if voice else []) + [phrase]
     subprocess.run(cmd, check=False)
 
