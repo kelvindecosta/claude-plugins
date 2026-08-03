@@ -33,7 +33,7 @@ PHRASES = {
 DEFAULT_SOUND = "/System/Library/Sounds/Ping.aiff"
 
 # Loudness (0.0-1.0, relative to system volume); override with CLAUDE_ANNOUNCE_VOLUME.
-DEFAULT_VOLUME = 0.25
+DEFAULT_VOLUME = 0.05
 
 
 def humanize(name: str) -> str:
